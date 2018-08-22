@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue.js App</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <div id="app">
+        <h4>変数の表示</h4>
+        <p>{{ message }}</p>
+        <h4>リストの表示</h4>
+        <ol>
+            <li v-for=" item in list "> {{ item }} </li>
+        </ol>
+        <h4>イベント</h4>
+        <button v-on:click="click" >Click</button>
+        <h4>フォーム入力と同期</h4>
+        <p> {{ text }} </p>
+        <input v-model="text">
+        <h4>数字の同期</h4>
+        <p>{{ number }}</p>
+        <input v-model.number="number">
+        <h4>条件分岐</h4>
+        <p v-if="show"> "show"が”true”の時だけ表示 </p>
+        <h4>トランジションとアニメーション</h4>
+        <button v-on:click="show=!show">切り替え</button>
+        <transition>
+            <p v-if="show">HELLO VUE.JS!</p>
+        </transition>
+    </div>
+    <script src="vue.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
