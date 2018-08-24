@@ -10,7 +10,8 @@
 <body>
     <div id="app">
         <h4>変数の表示</h4>
-        <p>{{ message }}</p>
+        <!-- マスタッシュ(中括弧部分のみ置き換わる) -->
+        <p> Hello World! {{ message }} </p>
         <h4>リストの表示</h4>
         <ol>
             <li v-for=" item in list "> {{ item }} </li>
@@ -18,7 +19,7 @@
         <h4>イベント</h4>
         <button v-on:click="click" >Click</button>
         <h4>フォーム入力と同期</h4>
-        <p> {{ text }} </p>
+        <p> {{ text.text }} </p>
         <input v-model="text">
         <h4>数字の同期</h4>
         <p>{{ number }}</p>
@@ -30,6 +31,28 @@
         <transition>
             <p v-if="show">HELLO VUE.JS!</p>
         </transition>
+        <h4>データバインディング</h4>
+        <p>{{ text.value }}</p>
+        <p>{{ text.value.length }}</p>
+        <p>{{ list[3] }}</p>
+        <p>{{ list[num] }}</p>
+        <h4>式と文の違い</h4>
+        <!-- {{ var foo = message }} => エラー -->
+        <p>{{ 1+1 }}</p>
+        <h4>算出プロパティ</h4>
+        <p>{{ message.length >= 10 ? '10文字以上' : '10文字以下' }}</p>
+        <h4>フィルタ</h4>
+        <p>{{ Math.round( 3.1418 ) }}</p>
+        <h4>属性のデータバインド</h4>
+        <!-- <input type="text" value="{{ message }}" > => エラー -->
+        <p>省略なし: v-bind:value </p>
+        <input type="text" v-bind:value="message" >
+        <br>
+        <p>省略あり: :value </p>
+        <input type="text" :value="message" >
+        <h4>データの更新</h4>
+        <p>{{ count }}回クリックしました。</p>
+        <button v-on:click="increment">カウントアップ</button>
     </div>
     <script src="vue.js"></script>
     <script src="main.js"></script>
