@@ -15,7 +15,21 @@ var app = new Vue( {
         number: number, //numberがリアクティブデータになる
         show: true,
         num: 1,
-        count: 0
+        count: 0,
+        isChild: true,
+        isActive: true,
+        textColor: 'red',
+        bgColor: 'lightgray',
+        classObject: {
+            child: true,
+            'is-ctive': false,
+        },
+        styleObject: {
+            color: 'blue',
+            backgroundColor: 'wheat'
+        },
+        ok: true,
+        type: "A"
     },
     //算出プロパティ
     computed:{

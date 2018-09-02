@@ -5,3 +5,11 @@
 .v-enter, .v-leave-to {
     opacity: 0;
 }
+
+.child{
+    background-color: aqua;
+}
+
+.is-active{
+    border-bottom: solid 2px orange;
+}

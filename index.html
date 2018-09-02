@@ -53,6 +53,24 @@
         <h4>データの更新</h4>
         <p>{{ count }}回クリックしました。</p>
         <button v-on:click="increment">カウントアップ</button>
+        <h4>クラスとスタイルのデータバインディング</h4>
+        <p v-bind:class="{ child: isChild,'is-active': isActive }">Text</p>
+        <p v-bind:style="{ color: textColor, backgroundColor: bgColor }">Text</p>
+        <h4>オブジェクトデータの場合</h4>
+        <p v-bind:class="classObject">Text</p>
+        <p v-bind:style="styleObject">Text</p>
+        <h4>v-ifとv-show</h4>
+        <div v-if="ok">v-if条件による描画</div>
+        <div v-show="ok">v-show条件による描画</div>
+        <h4>template</h4>
+        <template v-if="ok">
+            <h5>タイトル</h5>
+            <div>コンテンツ</div>
+        </template>
+        <h4>v-else-ifとv-else</h4>
+        <div v-if="type === 'A'">type: A</div>
+        <div v-else-if="type === 'B'">type: B</div>
+        <div v-else>それ以外</div>
     </div>
     <script src="vue.js"></script>
     <script src="main.js"></script>
