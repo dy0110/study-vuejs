@@ -52,7 +52,9 @@ var app = new Vue( {
             { id: 1, name: "スライム", hp: 100 },
             { id: 2, name: "ゴブリン", hp: 200 },
             { id: 3, name: "ドラゴン", hp: 500 },
-        ]
+        ],
+
+        an_mons: []
     },
     //算出プロパティ
     computed:{
@@ -60,7 +62,10 @@ var app = new Vue( {
     },
     //ライフサイクルフック
     created: function(){
-       console.log( "Vue.js app is created" )
+       console.log( "Vue.js app is created" );
+       //リストの更新
+       var n_mons = { id: 1, name: "キングスライム", hp: 700 };
+       this.$set( this.monster, 0, n_mons );
     },
     //アプリケーションで使用するメソッド
     methods:{
@@ -88,9 +93,13 @@ var app = new Vue( {
                 }
              );
         },
-
+        
         doRemove: function( index ){
             this.monster.splice( index, 1 )
+        },
+        //体力減る
+        doAttack: function( index ){
+            this.monster[ index ].hp -= 10;
         }
     }
 } );

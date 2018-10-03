@@ -105,6 +105,20 @@
                 <button v-on:click="doRemove( index )">モンスターを削除</button>
             </li>
         </ul>
+        <h4>配列要素の更新</h4>
+        <ul>
+            <li v-for="(item, index) in monster" :key="item.hp">
+                ID.{{ item.id }} {{ item.name }} HP. {{ item.hp }}
+                <span v-if="item.hp < 50">瀕死!</span>
+                <button v-on:click="doAttack( index )">攻撃</button>
+            </li>
+        </ul>
+        <h4>axiosの利用</h4>
+        <ul>
+            <li v-for="(item, index) in an_mons" :key="item.id">
+                ID.{{ item.id }} {{ item.name }} HP. {{ item.hp }}
+            </li>
+        </ul>
     </div>
     <script src="vue.js"></script>
     <script src="main.js"></script>
