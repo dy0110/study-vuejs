@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
-    <div id="app">
+    <div id="app" v-cloak>
         <h4>変数の表示</h4>
         <!-- マスタッシュ(中括弧部分のみ置き換わる) -->
         <p> Hello World! {{ message }} </p>
@@ -113,10 +113,89 @@
                 <button v-on:click="doAttack( index )">攻撃</button>
             </li>
         </ul>
-        <h4>axiosの利用</h4>
+        <h4>$refの使い方</h4>
+        <p ref="hello">Hello World!</p>
+        <h4>テンプレート制御ディレクティブ</h4>
+        <a v-bind:href="url" v-pre>Google {{ message }}</a>
+        <br>
+        <a v-bind:href="url" v-once>Google {{ message }}</a>
+        <br>
+        <span v-text="message"></span>
+        <br>
+        <span v-html="st_msg"></span>
+        <h4>メソッドイベントハンドラ</h4>
+        <button v-on:click="handleClick">クリック</button>
+        <h4>フォーム入力の取得</h4>
+        <input v-bind:value="message" v-on:input="handleInput">
+        <h4>マウスの右ボタンが押されたとき</h4>
+        <div v-on:click.right="handleRightClick">example</div>
+        <div v-on:click.right.prevent="handleRightClick">example</div>
+        <h4>stopイベント</h4>
+        <div v-on:click="handle( 'div1' )">
+            div1
+            <a href="#top" v-on:click.stop="handle( 'div2' )">div2</a>
+        </div>
+        <h4>preventイベント</h4>
+        <div v-on:click="handle( 'div1' )">
+            div1
+            <a href="#top" v-on:click.prevent="handle( 'div2' )">div2</a>
+        </div>
+        <h4>captureイベント</h4>
+        <div v-on:click.capture="handle( 'div1' )">
+            div1
+            <div v-on:click="handle( 'div2' )">
+                div2
+                <div v-on:click="handle( 'div3' )">div3</div>
+            </div>
+        </div>
+        <h4>v-modal</h4>
+        <input type="text" v-model="message">
+        <p>{{ message }}</p>
+        <textarea v-model="message" name="" id="" cols="30" rows="10"></textarea>
+        <p>{{ message }}</p>
+        <label for="">
+            <input type="checkbox" v-model="val">{{ val }}
+        </label>
+        <br>
+        <label for=""><input type="checkbox" value="A" v-model="array" name="" id="">A</label>
+        <br>
+        <label for=""><input type="checkbox" value="B" v-model="array" name="" id="">B</label>
+        <br>
+        <label for=""><input type="checkbox" value="C" v-model="array" name="" id="">C</label>
+        <p>{{ array }}</p>
+        <br>
+        <input type="radio" value="A" v-model="radio" name="" id="">A
+        <br>
+        <input type="radio" value="B" v-model="radio" name="" id="">B
+        <br>
+        <input type="radio" value="C" v-model="radio" name="" id="">C
+        <p>{{ radio }}</p><br>
+        <select v-model="select" name="" id="">
+            <option value="a">A</option>
+            <option value="b">B</option>
+            <option value="c">C</option>
+        </select>
+        <br>
+        <select v-model="multiple" multiple name="" id="">
+            <option value="a">A</option>
+            <option value="b">B</option>
+            <option value="c">C</option>
+        </select>
+        <p>{{ multiple }}</p>
+        <input type="range" v-model.number="number" name="" id="">{{ number }}
+        <h4>算出プロパティ</h4>
+        <p>{{ width }}の半分は{{ halfWidth }}</p>
+        <p>X: {{ this.halfWidth }}</p>
+        <p>Y: {{ this.halfHeight }}</p>
+        <input v-model.number="width" type="text">{{ width }}
+        <input v-model.number="bindWidth" type="text">{{ bindWidth }}
+        <br>
+        <input v-model.number="budget" type="text"> 円以下に絞りこむ
+        <input v-model.number="limit" type="text"> 件を表示
+        <p>{{ matched.length }} 件中 {{ limited.length }} 件を表示中</p>
         <ul>
-            <li v-for="(item, index) in an_mons" :key="item.id">
-                ID.{{ item.id }} {{ item.name }} HP. {{ item.hp }}
+            <li v-for="item in limited" :key="item.id">
+                {{ item.name }} {{ item.price }} 円
             </li>
         </ul>
     </div>

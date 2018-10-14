@@ -7,6 +7,10 @@ var app = new Vue( {
     //アプリケーションで使用するデータ
     data:{
         message: 'Hello Vue.js!',
+
+        url: "https://jp.vuejs.org/index.html",
+
+        st_msg: "Hello <strong>Vue.js!</strong>",
         
         list:[ 'りんご', 'バナナ', 'いちご' ],
         
@@ -54,11 +58,87 @@ var app = new Vue( {
             { id: 3, name: "ドラゴン", hp: 500 },
         ],
 
-        an_mons: []
+        an_mons: [],
+
+        val: true,
+
+        array: [],
+
+        radio: "",
+
+        select: "",
+
+        multiple: [],
+
+        number: 10,
+
+        width: 1000,
+
+        height: 600,
+
+        //フォーム入力と紐ずけるデータ
+        budget: 300,
+
+        //表示件数
+        limit: 2,
+
+        //元にあるリスト
+        fruit: [ 
+            { id: 1, name: 'りんご', price: 100 },
+            { id: 2, name: 'バナナ', price: 200 },
+            { id: 3, name: 'いちご', price: 400 },
+            { id: 4, name: 'オレンジ', price: 300 },
+            { id: 5, name: 'メロン', price: 500 }
+         ]
     },
     //算出プロパティ
     computed:{
         //何かを処理した結果
+        halfWidth: function( ){
+            return this.width/2
+        },
+
+        halfHeight: function( ){
+            return this.height/2
+        },
+
+        halfPoint: function( ){
+            return{
+                x: this.halfWidth,
+                y: this.halfHeight
+            }
+        },
+
+        bindWidth: {
+            get: function(){
+                return this.width / 2
+            },
+            set: function( val ){
+                this.width = val * 2
+            }
+        },
+
+        //bagde以下のリストを返す算出プロパティ
+        matched: function( ){
+            return this.fruit.filter(
+                function( el ){
+                    return el.price <= this.budget
+                }, this
+            )
+        },
+
+        //matchedで返ったデータをlimit件返す算出プロパティ
+        limited: function( ){
+            return this.matched.slice( 0, this.limit );
+        }
+    },
+    //DOMへアクセスできるタイミング
+    mounted: function() {
+        //一時的な変更　仮想DOMで上書き
+        //ルート要素の取得
+        console.log( this.$el );
+        //DOMの取得
+        console.log( this.$refs.hello )
     },
     //ライフサイクルフック
     created: function(){
@@ -100,6 +180,28 @@ var app = new Vue( {
         //体力減る
         doAttack: function( index ){
             this.monster[ index ].hp -= 10;
+        },
+
+        //イベントハンドラー
+        handleClick: function() {
+            alert( 'クリックしたよ' )
+        },
+
+        //フォーム入力の取得
+        handleInput: function( event ){
+            console.log( "代入前: " + this.message )
+            this.message = event.target.value;
+            console.log( "代入後: " + this.message );
+        },
+
+        //マウスの右クリック
+        handleRightClick: function( comment ){
+            console.log( comment );
+        },
+
+        //ハンドラー
+        handle: function( comments ){
+            console.log( comments );
         }
     }
 } );
