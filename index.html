@@ -198,8 +198,26 @@
                 {{ item.name }} {{ item.price }} 円
             </li>
         </ul>
+        <h4>ウォッチャ</h4>
+        <select v-model="current" name="" id="">
+            <option v-for="topic in topics" :value="topic.value">
+                {{ topic.name }}
+            </option>
+        </select>
+        <div v-for="item in watchList">{{ item.full_name }}</div>
+        <h4>フィルタ</h4>
+        180度は{{ 180 | radian | round }}ラジアン
+        <h4>コンポーネント</h4>
+        <my-component></my-component>
+        <!--複数回使用すると別々なインスタンスとして扱われる-->
+        <!--<my-component></my-component>-->
+        <component-b></component-b>
+        <h4>スロット</h4>
+        <slot-parent></slot-parent>
+        <name-slot-parent></name-slot-parent>
     </div>
     <script src="vue.js"></script>
     <script src="main.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </body>
 </html>

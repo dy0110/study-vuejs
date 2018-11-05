@@ -1,6 +1,102 @@
 var number = 1;
 number++;
 
+//コンポーネントを定義
+Vue.component( 'my-component', {
+    template: '<ul><comp-child v-for="item in list" v-bind:key="item.id" v-bind="item" v-on:attack="handleAttack"></comp-child></ul>',
+    //オブジェクトを返えす関数にする
+    data: function(){
+        return {
+            list: [
+                { id: 1, name: "スライム", hp: 100 },
+                { id: 2, name: "ゴブリン", hp: 200 },
+                { id: 3, name: "ドラゴン", hp: 500 }
+            ]
+        }
+    },
+    //ルートと同様にプロパティを定義できる
+    methods: {
+        handleAttack: function( id ){
+            //idから要素を取得
+            var item = this.list.find( function(el){
+                return el.id === id;
+            } );
+            //HPを１０減らす
+            if( item !== undefined && item.hp > 0 ){
+                item.hp -= 10;
+            }
+        }
+    }
+} );
+
+//子コンポーネント
+Vue.component( 'comp-child',{
+    template: '<li>NAME: {{ name }} HP: {{ hp }}<button v-on:click="doAttack">攻撃する</button></li>',
+    props: { id: Number, name: String, hp: Number },
+    methods: {
+        //$emitでattackを発火
+        doAttack: function( ){
+            //引き数として自分のIDを渡す
+            this.$emit( 'attack', this.id );
+        }
+    }
+} );
+
+//イベントバス
+var bus = new Vue({
+    data: {
+        count: 0
+    }
+})
+
+Vue.component( 'component-b', {
+    template: '<p>bus: {{ bus.count }}</p>',
+    computed: {
+        bus: function(){
+            return bus.$data
+        }
+    },
+    created: function( ){
+        bus.$on( 'bus-event', function( ){
+            this.count++
+        } )
+    }
+} );
+
+//ローカルコンポーネント
+var localComponent = {
+    template: 'LocalComponent'
+}
+
+//slot
+Vue.component( 'slot-parent', {
+    template: '<slot-child>埋めこまれたスロットコンテンツ</slot-child>'
+} );
+
+Vue.component( 'slot-child', {
+    template: '<div class="slot-child">ここにスロットを埋め込む　→ <slot></slot></div>'
+} );
+
+//名前つきスロット
+Vue.component( 'name-slot-parent', {
+    template: '<name-slot-child><header slot="header">Hello Vue.js Slot!</header>{{ msg }}</name-slot-child>',
+    data: function(){
+        return {
+            msg:"Vue.jsはJavaScriptのフレームワークです。" 
+        }
+    }
+});
+
+Vue.component('name-slot-child', {
+    template: "<section><header><slot name='header'>{{ header_msg }}</slot></header><div class='content'><slot>{{ content_msg }}</slot></div><slot name='footer'></slot></section>",
+    data: function(){
+        return {
+            header_msg : "デフォルトタイトル" ,
+            content_msg: "デフォルトコンテンツ"
+        }
+    }
+});
+
 var app = new Vue( {
     //要素
     el: '#app',
@@ -89,7 +185,40 @@ var app = new Vue( {
             { id: 3, name: 'いちご', price: 400 },
             { id: 4, name: 'オレンジ', price: 300 },
             { id: 5, name: 'メロン', price: 500 }
-         ]
+         ],
+
+         watchList: [],
+
+         current: '',
+
+         topics: [
+             { value: 'vue', name: 'Vue.js' },
+             { value: 'jQuery', name: 'jQuery' }
+         ],
+
+         price: 19800
+    },
+    //Watch
+    watch: {
+        current: function( val ){
+            //GitHubのAPIからトピックのリポジトリを検索
+            axios.get( 'https://api.github.com/search/repositories', {
+                params:{ q: 'topic: ' + val }
+            }).then( function( response ){
+                this.watchList = response.data.items
+            }.bind( this ) )
+        }
+    },
+    //filters
+    filters: {
+
+        round: function( val ){
+            return Math.round( val * 100 ) / 100
+        },
+
+        radian: function( val ){
+            return val * Math.PI / 180
+        }
     },
     //算出プロパティ
     computed:{
