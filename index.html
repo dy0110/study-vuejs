@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
+
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js"></script>
     <div id="app" v-cloak>
         <h4>変数の表示</h4>
         <!-- マスタッシュ(中括弧部分のみ置き換わる) -->
@@ -215,6 +217,15 @@
         <h4>スロット</h4>
         <slot-parent></slot-parent>
         <name-slot-parent></name-slot-parent>
+        <h4>.sync</h4>
+        <sync-component></sync-component>
+        <h4>トランジョン</h4>
+        <button v-on:click="order=!order">切り替え</button>
+        <transition-group name="fruit" tag="ul">
+            <li v-for="item in sortedList" :key="item.id">
+                {{ item.name }} {{ item.price }}円
+            </li>
+        </transition-group>
     </div>
     <script src="vue.js"></script>
     <script src="main.js"></script>

@@ -33,3 +33,7 @@
 #app[v-cloak] {
     opacity: 0;
 }
+
+.v-move{
+    transition: transform 1s;
+}

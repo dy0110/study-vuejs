@@ -1,6 +1,5 @@
 var number = 1;
 number++;
-
 //コンポーネントを定義
 Vue.component( 'my-component', {
     template: '<ul><comp-child v-for="item in list" v-bind:key="item.id" v-bind="item" v-on:attack="handleAttack"></comp-child></ul>',
@@ -93,6 +92,34 @@ Vue.component('name-slot-child', {
         return {
             header_msg : "デフォルトタイトル" ,
             content_msg: "デフォルトコンテンツ"
+        }
+    }
+});
+
+Vue.component('sync-component', {
+    template: '<sync-child  v-bind:name.sync="name" v-bind:hp.sync="hp"></sync-child>',
+    data: function(){
+        return {
+            name : "メタルスライム" ,
+            hp: 500
+        }
+    }
+});
+
+Vue.component('sync-child', {
+    template: '<div class="sync-component"><p>名前. {{ name }} HP. {{ hp }}</p><p>名前 <input v-model="localName"></p><p>HP <input size="5" v-model.number="localHp"></p></div>',
+    props: {
+        name: String,
+        hp: Number
+    },
+    computed:{
+        localName: {
+            get: function(){ return this.name },
+            set: function( val ){ this.$emit('update:name', val) }
+        },
+        localHp: {
+            get: function(){ return this.hp },
+            set: function( val ){ this.$emit('update:hp', val) }
         }
     }
 });
@@ -196,7 +223,9 @@ var app = new Vue( {
              { value: 'jQuery', name: 'jQuery' }
          ],
 
-         price: 19800
+         price: 19800,
+
+         order: false
     },
     //Watch
     watch: {
@@ -259,6 +288,10 @@ var app = new Vue( {
         //matchedで返ったデータをlimit件返す算出プロパティ
         limited: function( ){
             return this.matched.slice( 0, this.limit );
+        },
+
+        sortedList: function(){
+            return window._.orderBy( this.fruit, 'price', this.order ? 'desc' : 'asc' )
         }
     },
     //DOMへアクセスできるタイミング
